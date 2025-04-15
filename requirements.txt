@@ -1,0 +1,5 @@
+fastapi
+tortoise-orm[aiomysql]
+uvicorn
+pyjwt
+passlib
