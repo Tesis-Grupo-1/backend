@@ -1,0 +1,7 @@
+.env
+__pycache__
+modelo/Huevo
+modelo/Larva
+modelo/Planta_Sana
+modelo/Pupa
+modelo/modelo_entrenado.h5
