@@ -1,1 +1,2 @@
-from .users.user_repository import UserRepository
+from .detection.DetectionRepository import DetectionRepository
+from .images.ImageRepository import ImageRepository

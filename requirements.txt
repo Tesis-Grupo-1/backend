@@ -3,3 +3,5 @@ tortoise-orm[aiomysql]
 uvicorn
 pyjwt
 passlib
+boto3
+pydantic-settings

@@ -1,4 +1,2 @@
-from .Users.UserCreate import UserCreate
-from .Users.UserResponse import UserResponse
-from .Users.LoginRequests import LoginRequest
-from .Users.LoginResponse import LoginResponse
+from .detection.DetectionResponse import DetectionResponse
+from .images.ImageUploadResponse import ImageUploadResponse
