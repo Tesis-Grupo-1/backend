@@ -40,7 +40,7 @@ class DetectionService:
         image_array = image_array / 255.0
 
         # Añadir una dimensión extra para que el modelo lo reciba en el formato adecuado (batch_size, height, width, channels)
-        image_array = np.expand_dims(image_array, axis=0)
+        image_array = np.expand_dims(image_array, axis=1)
 
         return image_array
 
