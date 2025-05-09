@@ -11,7 +11,7 @@ class DetectionService:
     @staticmethod
     async def load_model():
         if DetectionService.model is None:
-            DetectionService.model = tf.keras.models.load_model('modelo\\modelo_entrenado.h5')
+            DetectionService.model = tf.keras.models.load_model('modelo\modelo_entrenado_resnet.h5')
             print("Modelo cargado exitosamente.")
         return DetectionService.model
 

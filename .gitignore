@@ -6,3 +6,5 @@ modelo/Planta_Sana
 modelo/Pupa
 modelo/modelo_entrenado.h5
 modelo/data
+modelo/logs
+modelo/Otros
