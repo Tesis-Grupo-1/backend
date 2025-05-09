@@ -6,3 +6,4 @@ passlib
 boto3
 pydantic-settings
 tensorflow
+pillow
