@@ -1,17 +1,17 @@
-# Usa la imagen base de Python
+# Usa la imagen base de Python 3.12
 FROM python:3.12-slim
 
-# Setea el directorio de trabajo
+# Setea el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copia los archivos de tu aplicación al contenedor
+# Copia todos los archivos del proyecto en el contenedor
 COPY . /app
 
-# Instala las dependencias de la aplicación
+# Instala las dependencias de la aplicación desde el archivo requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expón el puerto en el que la app correrá (suponiendo que es un servidor)
 EXPOSE 8000
 
 # Define el comando para correr la aplicación
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app", "--reload"]
