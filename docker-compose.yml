@@ -1,5 +1,3 @@
-name: Minascan
-
 version: '3.8'
 
 services:
