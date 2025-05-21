@@ -50,3 +50,19 @@ jobs:
 
             # Instalar dependencias
             pip install -r requirements.txt
+    
+    
+    - name: Build docker compose
+      run: |
+        containers=$(docker ps -aq)
+        if [ -n "$containers" ]; then
+          echo "Stopping and removing existing containers..."
+          docker stop $containers
+          docker rm $containers
+        else
+          echo "No running containers found."
+        fi
+
+        docker-compose -f docker-compose.yml build
+        docker-compose -f docker-compose.yml up -d
+        docker ps
