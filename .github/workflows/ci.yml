@@ -66,6 +66,7 @@ jobs:
             echo "Stopping and removing existing containers..."
             docker stop $containers
             docker rm $containers
+            docker system prune -a --volumes -f
           else
             echo "No running containers found."
           fi

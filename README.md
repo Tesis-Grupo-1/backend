@@ -12,7 +12,6 @@ Este proyecto es el backend de una aplicación móvil diseñada para detectar la
 - [Configuración](#configuración)
 - [Tecnologías](#tecnologías)
 - [Contribución](#contribución)
-- [Licencia](#licencia)
 
 ## Instalación
 
