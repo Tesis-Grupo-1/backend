@@ -11,7 +11,10 @@ class DetectionService:
     @staticmethod
     async def load_model():
         if DetectionService.model is None:
-            model_path = os.path.join(os.path.dirname(__file__), 'modelo', 'modelo_entrenado_resnet.h5')
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # sube 3 niveles hasta backend
+
+            model_path = os.path.join(base_dir, 'modelo', 'modelo_entrenado_resnet.h5')
+
             DetectionService.model = tf.keras.models.load_model(model_path)
             print("Modelo cargado exitosamente.")
         return DetectionService.model
