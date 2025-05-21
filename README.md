@@ -45,7 +45,7 @@ docker-compose -f docker-compose.yml up -d
 Se requiere los siguientes variables de entorno:
 
 ```bash
-DATABASE_URL=mysql://user:passwd@host:port/db
+DATABASE_URL=mysql://user:passwd@host:port/tu-db
 SECRET_KEY=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
