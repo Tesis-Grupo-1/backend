@@ -26,8 +26,8 @@ async def predict(id_image: str = Form(...), file: UploadFile = File(...)) -> De
         # Realizar la predicción
         prediction = await DetectionService.detect_plaga(img_array, id_image)
 
-        logger.info({"prediction": prediction["prediction_value"], "plaga": prediction["plaga"]})
-        
+        logger.info({"prediction": prediction["prediction_value"], "plaga": prediction["plaga"], "class_label": prediction["class_label"]})
+
         return DetectionResponse(plaga=prediction["plaga"], prediction_value=prediction["prediction_value"])
 
     except UnidentifiedImageError:

@@ -6,4 +6,6 @@ passlib
 boto3
 pydantic-settings
 tensorflow
+pydantic
 pillow
+python-multipart
