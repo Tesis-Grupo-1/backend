@@ -11,8 +11,7 @@ class DetectionService:
     @staticmethod
     async def load_model():
         if DetectionService.model is None:
-            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # sube 3 niveles hasta backend
-
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
             model_path = os.path.join(base_dir, 'modelo', 'modelo_entrenado_resnet.h5')
 
             DetectionService.model = tf.keras.models.load_model(model_path)
