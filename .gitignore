@@ -8,3 +8,4 @@ modelo/modelo_entrenado.h5
 modelo/data
 modelo/logs
 modelo/Otros
+venv
