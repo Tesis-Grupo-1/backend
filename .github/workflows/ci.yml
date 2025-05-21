@@ -21,12 +21,12 @@ jobs:
       uses: appleboy/ssh-action@v0.1.6
       with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
             sudo su
-            cd /home/${{ secrets.EC2_USER }}
+            cd /home/ubuntu/
 
             if [ ! -d "backend" ]; then
               git clone https://github.com/Tesis-Grupo-1/backend.git backend
@@ -52,17 +52,25 @@ jobs:
             pip install -r requirements.txt
     
     
-    - name: Build docker compose
-      run: |
-        containers=$(docker ps -aq)
-        if [ -n "$containers" ]; then
-          echo "Stopping and removing existing containers..."
-          docker stop $containers
-          docker rm $containers
-        else
-          echo "No running containers found."
-        fi
+    - name: Build and restart Docker Compose on EC2
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        port: 22
+        script: |
+          sudo su
+          cd /home/ubuntu/backend
+          containers=$(docker ps -aq)
+          if [ -n "$containers" ]; then
+            echo "Stopping and removing existing containers..."
+            docker stop $containers
+            docker rm $containers
+          else
+            echo "No running containers found."
+          fi
 
-        docker-compose -f docker-compose.yml build
-        docker-compose -f docker-compose.yml up -d
-        docker ps
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml up -d
+          docker ps
