@@ -25,7 +25,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            sudo su -
+            sudo su
             cd /home/${{ secrets.EC2_USER }}
 
             if [ ! -d "backend" ]; then
