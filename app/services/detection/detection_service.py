@@ -12,7 +12,7 @@ class DetectionService:
     async def load_model():
         if DetectionService.model is None:
             base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-            model_path = os.path.join(base_dir, 'modelo', 'modelo_resnet_multiclase.h5')
+            model_path = os.path.join(base_dir, 'modelo', 'modelo_resnet_multiclase_v2.h5')
 
             DetectionService.model = tf.keras.models.load_model(model_path)
             print("Modelo cargado exitosamente.")
