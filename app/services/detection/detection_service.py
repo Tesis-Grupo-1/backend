@@ -67,12 +67,31 @@ class DetectionService:
 
         # Definir si es plaga o no según la etiqueta
         plaga = predicted_class_label == 'plaga'
+        
+        if predicted_class_label == 'plaga' and predicted_class_prob < 0.5:
+            plaga = False
+            
 
         # Guardar en base de datos
-        await DetectionRepository.create_detection(
+        resp = await DetectionRepository.create_detection(
             image_id=id_image, 
             result=plaga, 
             prediction_value=predicted_class_prob
         )
 
-        return {"plaga": plaga, "prediction_value": predicted_class_prob, "class_label": predicted_class_label}
+        return {"idDetection": resp.id_detection,"plaga": plaga, "prediction_value": predicted_class_prob, "class_label": predicted_class_label}
+
+    @staticmethod
+    async def save_time(id_detection: int, time_initial: float, time_final: float, time_detection: float) -> dict:
+        """
+        Guarda el tiempo de detección en la base de datos.
+        """
+        
+        await DetectionRepository.save_detection_time(
+            detection_id=id_detection, 
+            time_initial=time_initial, 
+            time_final=time_final, 
+            time_detection=time_detection
+        )
+        
+        return {"message": "Tiempo de detección guardado exitosamente."}

@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class DetectionResponse(BaseModel):
+    idDetection: int
     plaga: bool  
     prediction_value: float  
 

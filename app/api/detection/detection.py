@@ -28,7 +28,7 @@ async def predict(id_image: str = Form(...), file: UploadFile = File(...)) -> De
 
         logger.info({"prediction": prediction["prediction_value"], "plaga": prediction["plaga"], "class_label": prediction["class_label"]})
 
-        return DetectionResponse(plaga=prediction["plaga"], prediction_value=prediction["prediction_value"])
+        return DetectionResponse(idDetection=prediction["idDetection"], plaga=prediction["plaga"], prediction_value=prediction["prediction_value"])
 
     except UnidentifiedImageError:
         logger.error("El archivo recibido no es una imagen válida.")
@@ -40,3 +40,21 @@ async def predict(id_image: str = Form(...), file: UploadFile = File(...)) -> De
         logger.error(f"Error inesperado: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
     
+@router.post("/save_detection_time")
+async def save_detection_time(
+    id_detection: int = Form(...),
+    start_time2: str = Form(...),
+    end_time2: str = Form(...),
+    time_detection: float = Form(...)
+):
+    try:
+        detection = await DetectionService.save_time(
+            id_detection=id_detection,
+            time_initial=start_time2,
+            time_final=end_time2,
+            time_detection=time_detection
+        )
+        return detection
+    except Exception as e:
+        logger.error(f"Error al guardar el tiempo de detección: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
