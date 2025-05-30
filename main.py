@@ -3,6 +3,8 @@ from app.database import init_db, close_db
 from app.api import photo_router, detection_router
 from app.core import settings
 
+  
+
 async def lifespan(app: FastAPI):
 
     try:
