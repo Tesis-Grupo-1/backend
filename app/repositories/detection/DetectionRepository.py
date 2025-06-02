@@ -19,9 +19,6 @@ class DetectionRepository:
         """
         Guarda los resultados de la deteccion
         """
-        print("="*10)
-        print("repository")
-        print(f"Image_id: {image_id}, result: {result}, prediction_value: {prediction_value}, time_initial: {time_initial}, time_final: {time_final}, date_detection: {date_detection}")
         
         try:
             time_initial_obj = time.fromisoformat(time_initial)

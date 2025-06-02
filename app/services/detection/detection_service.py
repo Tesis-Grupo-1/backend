@@ -9,9 +9,6 @@ class DetectionService:
         """
         Guarda el tiempo de detección en la base de datos.
         """
-        print("="*10)
-        print("service")
-        print(f"Image_id: {image_id}, result: {result}, prediction_value: {prediction_value}, time_initial: {time_initial}, time_final: {time_final}, date_detection: {date_detection}")
         
         detection_new = await DetectionRepository.save_detection(
             image_id=image_id,
