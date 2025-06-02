@@ -1,39 +1,39 @@
 from app.models import Detection
+from datetime import time, date
 
 class DetectionRepository:
     """
     Repositorio para la gestión de detecciones en la base de datos.
     """
-    
+
+
     @staticmethod
-    async def create_detection(image_id: int, result: str, prediction_value: str) -> Detection:
-        """
-        Crea una nueva detección en la base de datos.
-        """
-        detection = await Detection.create(
-            image_id=image_id,
-            prediction_value=prediction_value,
-            result=result
-        )
-        return detection
-    
-    @staticmethod
-    async def save_detection_time(
-        detection_id: int, 
-        time_initial: float, 
-        time_final: float, 
-        time_detection: float
+    async def save_detection(
+        image_id: int,
+        result: str,
+        prediction_value: str,
+        time_initial: str, 
+        time_final: str, 
+        date_detection: str
     ) -> Detection:
         """
-        Guarda el tiempo de detección en la base de datos.
+        Guarda los resultados de la deteccion
         """
-        detection = await Detection.get(id_detection=detection_id)
-        print(f"Guardando tiempos para la detección {detection_id}: "
-              f"Inicial={time_initial}, Final={time_final}, Detección={time_detection}")
-        if not detection:
-            raise ValueError(f"Detection with id {detection_id} not found.")
-        detection.time_initial = time_initial
-        detection.time_final = time_final
-        detection.time_detection = time_detection
-        await detection.save()
-        return detection
+        try:
+            time_initial_obj = time.fromisoformat(time_initial)
+            time_final_obj = time.fromisoformat(time_final)
+            date_detection_obj = date.fromisoformat(date_detection)
+        except ValueError as ve:
+            print(f"Error al parsear campos de tiempo: {str(ve)}")
+            raise ve
+
+
+        detection_new = await Detection.create(
+            image_id=image_id,
+            result=result,
+            prediction_value=prediction_value,
+            time_initial=time_initial_obj,
+            time_final=time_final_obj,
+            date_detection=date_detection_obj
+        )
+        return detection_new

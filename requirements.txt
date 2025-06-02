@@ -9,3 +9,4 @@ tensorflow
 pydantic
 pillow
 python-multipart
+cryptography
