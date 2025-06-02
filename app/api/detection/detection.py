@@ -20,6 +20,8 @@ async def save_detection(
     date_detection: str = Form(...),
 ):
     try:
+        print("API")
+        print(f"Image_id: {image_id}, result: {result}, prediction_value: {prediction_value}, time_initial: {time_initial}, time_final: {time_final}, date_detection: {date_detection}")
         detection = await DetectionService.save_time(
             image_id=image_id,
             result=result,
@@ -28,6 +30,7 @@ async def save_detection(
             time_final=time_final,
             date_detection=date_detection
         )
+        print(detection)
         return detection
     except ValueError as ve:
         logger.error(f"Formato inválido para campos de tiempo: {str(ve)}")
