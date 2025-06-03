@@ -29,8 +29,10 @@ async def save_detection(
             time_final=time_final,
             date_detection=date_detection
         )
-        print(detection)
-        return detection
+        print("="*5 + "LOGS" + "="*5)
+        print(DetectionResponse(idDetection=detection.id_detection, plaga=result, prediction_value=prediction_value))
+
+        return DetectionResponse(idDetection=detection.id_detection, plaga=result, prediction_value=prediction_value)
     except ValueError as ve:
         logger.error(f"Formato inválido para campos de tiempo: {str(ve)}")
         raise HTTPException(status_code=422, detail=f"Formato inválido para hora: {str(ve)}")
