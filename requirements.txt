@@ -11,5 +11,4 @@ pillow
 python-multipart
 cryptography
 inference-sdk
-opencv-python
-pillow
+opencv-python-headless
