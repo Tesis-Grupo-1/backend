@@ -14,13 +14,12 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError, Bot
 @pytest.mark.asyncio
 async def test_upload_image_success():
     """Test de subida exitosa de imagen"""
-    # Datos de prueba para el archivo
+
     mock_file = MagicMock()
     mock_file.filename = "test_image.jpg"
     mock_file.content_type = "image/jpeg"
     mock_file.read = AsyncMock(return_value=b"dummy_image_data")
 
-    # Mock del objeto que retorna el repositorio
     mock_db_image = MagicMock()
     mock_db_image.id = 1
     mock_db_image.url_image = "https://test-bucket.s3.amazonaws.com/test_image.jpg"

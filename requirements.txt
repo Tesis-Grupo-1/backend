@@ -10,3 +10,6 @@ pydantic
 pillow
 python-multipart
 cryptography
+inference-sdk
+opencv-python
+pillow
