@@ -61,6 +61,7 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         port: 22
         script: |
+          sudo su
           cd /home/ubuntu/backend
           containers=$(docker ps -aq)
           if [ -n "$containers" ]; then
