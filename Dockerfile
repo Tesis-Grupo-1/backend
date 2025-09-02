@@ -10,15 +10,17 @@ COPY . /app
 # Instala las dependencias de la aplicación desde el archivo requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        libgl1 \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender1 \
+        libgomp1 \
+    ; rm -rf /var/lib/apt/lists/*
+    
 # Expón el puerto en el que la app correrá (suponiendo que es un servidor)
 EXPOSE 8000
 
