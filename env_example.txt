@@ -1,0 +1,23 @@
+# Configuración de la base de datos
+DATABASE_URL=mysql://usuario:contraseña@localhost:3306/minascan
+
+# Configuración de AWS S3
+AWS_ACCESS_KEY_ID=tu_access_key
+AWS_SECRET_ACCESS_KEY=tu_secret_key
+AWS_REGION=us-east-1
+AWS_BUCKET_NAME=tu_bucket_name
+
+# Configuración de JWT
+SECRET_KEY=tu_clave_secreta_muy_larga_y_segura
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# Configuración del servidor
+HOST=0.0.0.0
+PORT=8000
+
+# Configuración de Gemini AI
+GEMINI_API_KEY=tu_api_key_de_gemini
+
+# Clave de cifrado (generar con: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())")
+ENCRYPTION_KEY=M76NPfOak8cbEr61DZTqDyvtvkzZnFLkygiLaGZf9as=

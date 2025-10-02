@@ -2,7 +2,7 @@ fastapi
 tortoise-orm[aiomysql]
 uvicorn
 pyjwt
-passlib
+passlib[bcrypt]==1.7.4
 boto3
 pydantic-settings
 tensorflow
@@ -12,3 +12,7 @@ python-multipart
 cryptography
 inference-sdk
 opencv-python-headless
+google-generativeai
+reportlab
+python-jose[cryptography]==3.3.0
+bcrypt==4.0.1

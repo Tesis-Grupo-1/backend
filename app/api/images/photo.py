@@ -10,8 +10,34 @@ router = APIRouter()
 
 ALLOWED_CONTENT_TYPES = ["image/jpeg", "image/png", "image/jpg"]
 
-@router.post("/upload")
+@router.post("/upload", response_model=ImageUploadResponse,
+             summary="Subir imagen",
+             description="Sube una imagen al sistema y la almacena en AWS S3.",
+             responses={
+                 200: {"description": "Imagen subida exitosamente"},
+                 400: {"description": "Tipo de archivo no permitido"},
+                 500: {"description": "Error al subir la imagen"}
+             })
 async def upload_image(file: UploadFile = File(...)):
+    """
+    Sube una imagen al sistema y la almacena en AWS S3.
+    
+    - **file**: Archivo de imagen (JPG, JPEG, PNG) - Requerido
+    
+    **Tipos de archivo soportados:**
+    - JPEG (.jpg, .jpeg)
+    - PNG (.png)
+    
+    **Respuesta incluye:**
+    - ID de la imagen subida
+    - URL de la imagen en S3
+    - Nombre del archivo
+    - Fecha de subida
+    
+    **Límites:**
+    - Tamaño máximo recomendado: 10MB
+    - Formatos soportados: JPG, JPEG, PNG
+    """
     
     if file.content_type not in ALLOWED_CONTENT_TYPES:
         logger.error(f"Tipo de archivo no permitido: {file.content_type}")
