@@ -9,7 +9,7 @@ from botocore.exceptions import BotoCoreError, NoCredentialsError, PartialCreden
 class ImageService:
 
     @staticmethod
-    async def upload_image(file: UploadFile) -> str:
+    async def upload_image(file: UploadFile, porcentaje_plaga: float) -> ImageUploadResponse:
         s3 = boto3.client(
             "s3",
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -26,10 +26,16 @@ class ImageService:
                 Body=file_content,
                 ContentType=file.content_type
             )
+
             url = f"https://{settings.AWS_BUCKET_NAME}.s3.amazonaws.com/{file.filename}"
-            
-            resp = await ImageRepository.create_image(url_image=url, name=file.filename)
+
+            resp = await ImageRepository.create_image(
+                url_image=url,
+                name=file.filename,
+                porcentaje_plaga=porcentaje_plaga
+            )
             return ImageUploadResponse.from_orm(resp)
+
         except NoCredentialsError:
             raise HTTPException(status_code=400, detail="Credenciales de AWS no encontradas o incorrectas.")
         except PartialCredentialsError:

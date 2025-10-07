@@ -1,5 +1,6 @@
 from app.repositories import DetectionRepository
 from app.models.detection import Detection
+from app.models.images import Images
 from app.models.field import Field
 from app.models.user import User
 from app.schemas import DetectionCreate, DetectionUpdate
@@ -28,26 +29,20 @@ class DetectionService:
     
     @staticmethod
     async def create_detection(user_id: int, detection_data: DetectionCreate) -> Detection:
-        """Crea una nueva detección"""
-        # Verificar que el usuario existe
+        """Crea una nueva detección con múltiples imágenes"""
+
+        # Verificar usuario
         user = await User.get_or_none(id=user_id)
         if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Usuario no encontrado"
-            )
-        
-        # Verificar que el campo existe y pertenece al usuario
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+        # Verificar campo
         field = await Field.get_or_none(id=detection_data.field_id, user_id=user_id)
         if not field:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Campo no encontrado"
-            )
-        
-        # Crear detección
-        detection = Detection(
-            image_id=detection_data.image_id,
+            raise HTTPException(status_code=404, detail="Campo no encontrado")
+
+        # Crear la detección base
+        detection = await Detection.create(
             user_id=user_id,
             field_id=detection_data.field_id,
             result=detection_data.result,
@@ -55,25 +50,35 @@ class DetectionService:
             time_initial=detection_data.time_initial,
             time_final=detection_data.time_final,
             date_detection=detection_data.date_detection,
-            plague_percentage=detection_data.plague_percentage
+            plague_percentage=detection_data.plague_percentage,
         )
-        await detection.save()
+
+        # Asociar imágenes si existen
+        if detection_data.image_ids:
+            for img_id in detection_data.image_ids:
+                image = await Images.get_or_none(id_image=img_id)
+                if image:
+                    image.detection = detection
+                    await image.save()
+
         return detection
     
     @staticmethod
     async def get_detections_by_user(user_id: int) -> List[Detection]:
         """Obtiene todas las detecciones de un usuario"""
-        return await Detection.filter(user_id=user_id).prefetch_related('field', 'image')
+        return await Detection.filter(user_id=user_id).prefetch_related('field', 'images')
+
     
     @staticmethod
     async def get_detection_by_id(detection_id: int, user_id: int) -> Optional[Detection]:
         """Obtiene una detección específica de un usuario"""
-        return await Detection.get_or_none(id=detection_id, user_id=user_id).prefetch_related('field', 'image')
+        return await Detection.get_or_none(id_detection=detection_id, user_id=user_id).prefetch_related('field', 'images')
+
     
     @staticmethod
     async def update_detection(detection_id: int, user_id: int, detection_data: DetectionUpdate) -> Detection:
         """Actualiza una detección"""
-        detection = await Detection.get_or_none(id=detection_id, user_id=user_id)
+        detection = await Detection.get_or_none(id_detection=detection_id, user_id=user_id)
         if not detection:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -91,7 +96,7 @@ class DetectionService:
     @staticmethod
     async def delete_detection(detection_id: int, user_id: int) -> bool:
         """Elimina una detección"""
-        detection = await Detection.get_or_none(id=detection_id, user_id=user_id)
+        detection = await Detection.get_or_none(id_detection=detection_id, user_id=user_id)
         if not detection:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -109,7 +114,7 @@ class DetectionService:
         employee_ids = [emp.id for emp in employees]
         
         # Obtener detecciones de los empleados
-        return await Detection.filter(user_id__in=employee_ids).prefetch_related('field', 'image', 'user')
+        return await Detection.filter(user_id__in=employee_ids).prefetch_related('field', 'images', 'user')
     
     @staticmethod
     def convert_roboflow_coordinates(prediction, img_width, img_height):

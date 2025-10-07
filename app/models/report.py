@@ -61,14 +61,12 @@ class Report(models.Model):
     
     def _encrypt_data(self, data: str) -> str:
         """Cifra datos sensibles"""
-        key = base64.urlsafe_b64decode(settings.ENCRYPTION_KEY.encode())
-        fernet = Fernet(key)
+        fernet = Fernet(settings.ENCRYPTION_KEY.encode())
         return fernet.encrypt(data.encode()).decode()
     
     def _decrypt_data(self, encrypted_data: str) -> str:
         """Descifra datos sensibles"""
-        key = base64.urlsafe_b64decode(settings.ENCRYPTION_KEY.encode())
-        fernet = Fernet(key)
+        fernet = Fernet(settings.ENCRYPTION_KEY.encode())
         return fernet.decrypt(encrypted_data.encode()).decode()
     
     class Meta:

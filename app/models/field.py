@@ -7,6 +7,7 @@ class Field(models.Model):
     id = fields.IntField(pk=True)
     name = fields.CharField(max_length=100)
     size_hectares = fields.FloatField()
+    cant_plants = fields.IntField()
     user = fields.ForeignKeyField("models.User", related_name="fields", on_delete=fields.CASCADE)
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)

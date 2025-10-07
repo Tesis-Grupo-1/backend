@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 class ImageUploadResponse(BaseModel):
     id_image: int
-    name: str
-    url_image: str
+    image_path: str
+    porcentaje_plaga: float
     #upload_Date: str
 
     class Config:

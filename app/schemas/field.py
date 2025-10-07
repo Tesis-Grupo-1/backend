@@ -5,8 +5,9 @@ from datetime import datetime
 class FieldBase(BaseModel):
     name: str
     size_hectares: float
+    cant_plants: int
     location: str
-    description: Optional[str] = None
+    description: str
 
 class FieldCreate(FieldBase):
     pass
@@ -14,6 +15,7 @@ class FieldCreate(FieldBase):
 class FieldUpdate(BaseModel):
     name: Optional[str] = None
     size_hectares: Optional[float] = None
+    cant_plants: Optional[int] = None
     location: Optional[str] = None
     description: Optional[str] = None
 

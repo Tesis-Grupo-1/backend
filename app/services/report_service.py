@@ -78,7 +78,7 @@ class ReportService:
             )
         
         # Verificar que la detección existe y pertenece al usuario
-        detection = await Detection.get_or_none(id=report_data.detection_id, user_id=user_id)
+        detection = await Detection.get_or_none(id_detection=report_data.detection_id, user_id=user_id)
         if not detection:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -91,12 +91,14 @@ class ReportService:
         # Crear reporte
         report = Report(
             title=report_data.title,
-            content="Reporte generado automáticamente",
-            ai_generated_content=ai_content,
             user_id=user_id,
             field_id=report_data.field_id,
             detection_id=report_data.detection_id
         )
+
+        report.content = "Reporte generado automáticamente por Gemini AI."
+        report.ai_generated_content = ai_content
+
         await report.save()
         return report
     
@@ -135,8 +137,9 @@ class ReportService:
         """
         
         try:
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('gemini-2.5-flash-lite')
             response = model.generate_content(prompt)
+            print("Gemini AI response:", response.text)
             return response.text
         except Exception as e:
             raise HTTPException(

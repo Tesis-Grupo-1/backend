@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.post("/", response_model=FieldResponse,
              summary="Crear nuevo campo",
-             description="Crea un nuevo campo agrícola para el usuario autenticado.",
+             description="Crea un nuevo campo agrícola para el usuario autenticado.", 
              responses={
                  201: {"description": "Campo creado exitosamente"},
                  401: {"description": "Token JWT inválido o expirado"},
@@ -24,8 +24,9 @@ async def create_field(
     
     - **name**: Nombre del campo (requerido)
     - **size_hectares**: Tamaño del campo en hectáreas (requerido)
-    - **location**: Coordenadas GPS del campo (requerido)
-    - **description**: Descripción opcional del campo
+    - **cant_plants**: Cantidad de plantas en el campo (requerido)
+    - **location**: Coordenadas GPS del campo (opcional, se almacena cifrado)
+    - **description**: Descripción del campo (opcional, se almacena cifrado)
     
     Las coordenadas y descripción se almacenan cifradas en la base de datos.
     """

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from app.services import ImageService
 from app.schemas import ImageUploadResponse
 import logging
@@ -18,11 +18,12 @@ ALLOWED_CONTENT_TYPES = ["image/jpeg", "image/png", "image/jpg"]
                  400: {"description": "Tipo de archivo no permitido"},
                  500: {"description": "Error al subir la imagen"}
              })
-async def upload_image(file: UploadFile = File(...)):
+async def upload_image(file: UploadFile = File(...), porcentaje_plaga: float = Form(0.0)):
     """
     Sube una imagen al sistema y la almacena en AWS S3.
     
     - **file**: Archivo de imagen (JPG, JPEG, PNG) - Requerido
+    - **porcentaje_plaga**: Porcentaje de plaga asociado a la imagen (opcional, por defecto 0.0)
     
     **Tipos de archivo soportados:**
     - JPEG (.jpg, .jpeg)
@@ -43,9 +44,11 @@ async def upload_image(file: UploadFile = File(...)):
         logger.error(f"Tipo de archivo no permitido: {file.content_type}")
         raise HTTPException(status_code=400, detail="Tipo de archivo no permitido. Solo se permiten imágenes JPEG, PNG o JPG.")
     
+    print(f"FORM DATA: file={file.filename}, porcentaje_plaga={porcentaje_plaga}")
+
     try:
         # Subir la imagen usando el servicio ImageService
-        new_image = await ImageService.upload_image(file)
+        new_image = await ImageService.upload_image(file, porcentaje_plaga=porcentaje_plaga)  # Aquí puedes ajustar el porcentaje de plaga según sea necesario
         return new_image
     except Exception as e:
         # En caso de error, capturamos la excepción y respondemos con un error HTTP

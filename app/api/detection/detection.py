@@ -100,6 +100,7 @@ async def create_detection(
     - **date_detection**: Fecha de la detección (requerido)
     - **plague_percentage**: Porcentaje del campo afectado por la plaga (requerido)
     """
+    print(f"DETECTION DATA: {detection_data}")
     detection = await DetectionService.create_detection(current_user.id, detection_data)
     return DetectionResponse.from_orm(detection)
 
@@ -118,7 +119,7 @@ async def get_detections(current_user: User = Depends(get_current_active_user)):
     incluyendo información del campo, coordenadas y porcentaje de plaga.
     """
     detections = await DetectionService.get_detections_by_user(current_user.id)
-    return [DetectionHistoryResponse.from_orm(detection) for detection in detections]
+    return [DetectionHistoryResponse.from_orm(d) for d in detections]
 
 @router.get("/{detection_id}", response_model=DetectionHistoryResponse,
             summary="Obtener detección específica",

@@ -14,18 +14,23 @@ class FieldService:
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Usuario no encontrado"
+                detail="Usuario no encontrado" 
             )
         
         # Crear campo
+        # Nota: Asignamos location/description DESPUÉS de instanciar para asegurar
+        # que se invoquen los property setters (cifrado) y evitar NULLs en DB.
         field = Field(
             name=field_data.name,
             size_hectares=field_data.size_hectares,
+            cant_plants=field_data.cant_plants,
             user_id=user_id
         )
-        # Asignar campos cifrados usando las propiedades
+
+        # Dispara setters que cifran y escriben en _location/_description
         field.location = field_data.location
         field.description = field_data.description
+
         await field.save()
         return field
     
