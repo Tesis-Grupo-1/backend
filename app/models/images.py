@@ -13,6 +13,10 @@ class Images(models.Model):
     porcentaje_plaga = fields.FloatField()
     created_at = fields.DatetimeField(auto_now_add=True)
 
+    is_validated = fields.BooleanField(default=False)
+    is_false_positive = fields.BooleanField(default=False)
+    validated_at = fields.DatetimeField(null=True)
+
     def __str__(self):
         return f"Image {self.id_image} - {self.url_image}"
 
